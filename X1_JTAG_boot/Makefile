@@ -30,7 +30,7 @@ OBJCOPY = cargo objcopy --
 OBJCOPY_PARAMS = --strip-all -O binary
 
 UTILS_CONTAINER = andrerichter/raspi3-utils
-DOCKER_CMD = docker run -it --rm -v $(shell pwd):/work -w /work
+DOCKER_CMD = docker run -it --rm -v $(CURDIR):/work -w /work
 DOCKER_TTY = --privileged -v /dev:/dev
 QEMU_CMD = qemu-system-aarch64 -M raspi3 -kernel jtag_boot.img
 RASPBOOT_CMD = raspbootcom /dev/ttyUSB0 jtag_boot.img
@@ -43,8 +43,8 @@ target/$(TARGET)/release/jtag_boot: $(SOURCES)
 	cargo xbuild --target=$(TARGET) --release
 
 jtag_boot.img: target/$(TARGET)/release/jtag_boot
-	cp $< .
-	$(OBJCOPY) $(OBJCOPY_PARAMS) $< jtag_boot.img
+	cp "$<".
+	$(OBJCOPY) $(OBJCOPY_PARAMS) "$<"jtag_boot.img
 
 qemu: all
 	$(DOCKER_CMD) $(UTILS_CONTAINER) $(QEMU_CMD) -serial null -serial stdio

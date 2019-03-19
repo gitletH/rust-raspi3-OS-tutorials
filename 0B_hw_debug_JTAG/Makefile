@@ -38,9 +38,9 @@ CONTAINER_OPENOCD = andrerichter/raspi3-openocd
 CONTAINER_GDB     = andrerichter/raspi3-gdb
 
 DOCKER_CMD        = docker run -it --rm
-DOCKER_ARG_CURDIR = -v $(shell pwd):/work -w /work
+DOCKER_ARG_CURDIR = -v $(CURDIR):/work -w /work
 DOCKER_ARG_TTY    = --privileged -v /dev:/dev
-DOCKER_ARG_JTAG   = -v $(shell pwd)/../X1_JTAG_boot:/jtag
+DOCKER_ARG_JTAG   = -v $(CURDIR)/../X1_JTAG_boot:/jtag
 DOCKER_ARG_NET    = --network host
 
 DOCKER_EXEC_QEMU     = qemu-system-aarch64 -M raspi3 -kernel kernel8.img
@@ -54,8 +54,8 @@ $(CARGO_OUTPUT): $(SOURCES)
 	$(XRUSTC_CMD)
 
 kernel8.img: $(CARGO_OUTPUT)
-	cp $< .
-	$(OBJCOPY) $(OBJCOPY_PARAMS) $< kernel8.img
+	cp "$<".
+	$(OBJCOPY) $(OBJCOPY_PARAMS) "$<"kernel8.img
 
 qemu: all
 	$(DOCKER_CMD) $(DOCKER_ARG_CURDIR) $(CONTAINER_UTILS) \
