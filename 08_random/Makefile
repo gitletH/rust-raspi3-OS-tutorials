@@ -50,8 +50,8 @@ $(CARGO_OUTPUT): $(SOURCES)
 	$(XRUSTC_CMD)
 
 kernel8.img: $(CARGO_OUTPUT)
-	cp "$<".
-	$(OBJCOPY) $(OBJCOPY_PARAMS) "$<"kernel8.img
+	cp "$<" .
+	$(OBJCOPY) $(OBJCOPY_PARAMS) "$<" kernel8.img
 
 qemu: all
 	$(DOCKER_CMD) $(DOCKER_ARG_CURDIR) $(CONTAINER_UTILS) \

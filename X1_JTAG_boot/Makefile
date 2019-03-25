@@ -43,8 +43,8 @@ target/$(TARGET)/release/jtag_boot: $(SOURCES)
 	cargo xbuild --target=$(TARGET) --release
 
 jtag_boot.img: target/$(TARGET)/release/jtag_boot
-	cp "$<".
-	$(OBJCOPY) $(OBJCOPY_PARAMS) "$<"jtag_boot.img
+	cp "$<" .
+	$(OBJCOPY) $(OBJCOPY_PARAMS) "$<" jtag_boot.img
 
 qemu: all
 	$(DOCKER_CMD) $(UTILS_CONTAINER) $(QEMU_CMD) -serial null -serial stdio
